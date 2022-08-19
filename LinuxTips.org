@@ -1,0 +1,54 @@
+#+TITLE: Linux Tips
+#+STARTUP: indent content
+
+* Arch
+** [[https://archlinux.org/mirrorlist/?country=CN&protocol=http&protocol=https&ip_version=4][China]] [[https://archlinux.org/mirrorlist/][Mirrorlist]]
+#+BEGIN_EXAMPLE
+  ## China
+  #Server = http://mirrors.163.com/archlinux/$repo/os/$arch
+  #Server = http://mirrors.aliyun.com/archlinux/$repo/os/$arch
+  #Server = https://mirrors.aliyun.com/archlinux/$repo/os/$arch
+  #Server = http://mirrors.bfsu.edu.cn/archlinux/$repo/os/$arch
+  #Server = https://mirrors.bfsu.edu.cn/archlinux/$repo/os/$arch
+  #Server = http://mirrors.cqu.edu.cn/archlinux/$repo/os/$arch
+  #Server = https://mirrors.cqu.edu.cn/archlinux/$repo/os/$arch
+  #Server = http://mirrors.dgut.edu.cn/archlinux/$repo/os/$arch
+  #Server = https://mirrors.dgut.edu.cn/archlinux/$repo/os/$arch
+  #Server = http://mirrors.hit.edu.cn/archlinux/$repo/os/$arch
+  #Server = https://mirrors.hit.edu.cn/archlinux/$repo/os/$arch
+  #Server = http://mirror.lzu.edu.cn/archlinux/$repo/os/$arch
+  #Server = http://mirrors.neusoft.edu.cn/archlinux/$repo/os/$arch
+  #Server = https://mirrors.neusoft.edu.cn/archlinux/$repo/os/$arch
+  #Server = http://mirrors.nju.edu.cn/archlinux/$repo/os/$arch
+  #Server = https://mirrors.nju.edu.cn/archlinux/$repo/os/$arch
+  #Server = https://mirrors.njupt.edu.cn/archlinux/$repo/os/$arch
+  #Server = http://mirror.redrock.team/archlinux/$repo/os/$arch
+  #Server = https://mirror.redrock.team/archlinux/$repo/os/$arch
+  #Server = http://mirrors.shanghaitech.edu.cn/archlinux/$repo/os/$arch
+  #Server = https://mirrors.shanghaitech.edu.cn/archlinux/$repo/os/$arch
+  #Server = https://mirrors.sjtug.sjtu.edu.cn/archlinux/$repo/os/$arch
+  #Server = http://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
+  #Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
+  #Server = http://mirrors.ustc.edu.cn/archlinux/$repo/os/$arch
+  #Server = https://mirrors.ustc.edu.cn/archlinux/$repo/os/$arch
+  #Server = http://mirrors.wsyu.edu.cn/archlinux/$repo/os/$arch
+  #Server = https://mirrors.wsyu.edu.cn/archlinux/$repo/os/$arch
+  #Server = https://mirrors.xjtu.edu.cn/archlinux/$repo/os/$arch
+  #Server = http://mirrors.zju.edu.cn/archlinux/$repo/os/$arch
+#+END_EXAMPLE
+
+** [[https://github.com/archlinuxcn/repo][Archlinuxcn]] source
+1. edit /etc/pacman.conf, add
+#+begin_src conf
+  [archlinux]
+  Server = https://repo.archlinuxcn.org/$arch
+#+end_src
+2. import PGP Keys:
+#+begin_src sh
+  sudo pacman -Sy && sudo pacman -S archlinxucn-keyring
+#+end_src
+
+[[https://github.com/archlinuxcn/mirrorlist-repo][China server list]]
+#+begin_src sh
+  wget https://raw.githubusercontent.com/archlinuxcn/mirrorlist-repo/master/archlinuxcn-mirrorlist
+#+end_src
