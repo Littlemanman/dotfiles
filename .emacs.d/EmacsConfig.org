@@ -1767,6 +1767,7 @@
     (lmm/evil-space-leader-def
       "sb" 'consult-line
       "sB" 'consult-line-multi
+      "sf" 'consult-focus-lines
       "s.s" 'lmm/consult-symbol-at-point
       "s.S" 'lmm/consult-symbol-at-point-multi
       "s.w" 'lmm/consult-word-at-point
@@ -1892,16 +1893,62 @@
     (setq org-roam-directory "~/Notes/org-roam")
     :commands org-roma)
 
-  (use-package tempo
+  (use-package org-tempo
     :config
-    (require 'org-tempo)
-    (tempo-define-template "org-src"
-                           '("#+BEGIN_SRC " p '> n nil "#+END_SRC" >)))
+    ;; copy from source file
+    (defun org-tempo-add-block (entry)
+      "Add block entry from `org-structure-template-alist'."
+      (let* ((key (format "<%s" (car entry)))
+             (name (cdr entry))
+             (special (member name '("SRC" "EXPORT"))))
+        (tempo-define-template (format "org-%s" (replace-regexp-in-string " " "-" name))
+                               `(,(format "#+BEGIN_%s%s" name (if special " " ""))
+                                 ,(when special 'p) '> n ,(unless special 'p) n
+                                 ,(format "#+END_%s" (car (split-string name " ")))
+                                 >)
+                               key
+                               (format "Insert a %s block" name)
+                               'org-tempo-tags)))
+    (setq org-structure-template-alist
+          '(("a" . "EXPORT ascii")
+            ("c" . "CENTER")
+            ("C" . "COMMENT")
+            ("e" . "EXAMPLE")
+            ("E" . "EXPORT")
+            ("h" . "EXPORT html")
+            ("l" . "EXPORT latex")
+            ("q" . "QUOTE")
+            ("s" . "SRC")
+            ("se" . "SRC emacs-lisp")
+            ("spy" . "SRC python")
+            ("sr" . "SRC rust")
+            ("sc" . "SRC c")
+            ("scc" . "SRC c++")
+            ("sconf" . "SRC conf")
+            ("ssh" . "SRC sh")
+            ("v" . "VERSE")))
+    (setq org-tempo-keywords-alist
+          '(("L" . "latex")
+            ("H" . "html")
+            ("A" . "ascii")
+            ("i" . "index")
+            ("ti" . "TITLE")
+            ("au" . "AUTHOR")
+            ("stu" . "STARTUP")))
+    )
 
-  (use-package org-superstar
+  ;; (use-package org-superstar
+  ;;   :straight t
+  ;;   :hook
+  ;;   (org-mode-hook . org-superstar-mode))
+
+  (use-package org-modern
     :straight t
+    :init
+    (setq org-modern-block nil)
     :hook
-    (org-mode-hook . org-superstar-mode))
+    (org-mode-hook . org-modern-mode)
+    (org-agenda-finalize-hook . org-modern-agenda))
 
   (use-package evil-org
     :straight t
@@ -2280,7 +2327,6 @@
     :straight t
     :hook
     (prog-mode-hook . yas-minor-mode)
-    (org-mode-hook . yas-minor-mode)
     :config
     (set-face-attribute 'yas-field-highlight-face nil
                         :background nil
@@ -3158,9 +3204,14 @@
                    display-buffer-at-bottom))
     (general-define-key
      :keymaps 'vterm-mode-map
-     "<f12>" (lambda ()(interactive) (if (one-window-p)
-                            (switch-to-buffer (other-buffer))
-                            (delete-window)))
+     ;; "<f12>" (lambda (&optional count)(interactive "p") (if (one-window-p)
+     ;;                        (switch-to-buffer (other-buffer))
+     ;;                        (delete-window)))
+     "<f12>" (lambda (&optional count)(interactive "p")
+               (cond ((> count 1) (delete-window)(vterm count))
+                     ((one-window-p)
+                      (switch-to-buffer (other-buffer)))
+                     (t (delete-window))))
      "C-h" #'vterm-send-C-h
      "C-y" #'vterm-send-C-y
      "M-y" #'vterm-send-M-y
@@ -3202,6 +3253,21 @@
       done
       vterm_printf "51;E$vterm_elisp"
   }
+#+END_SRC
+
+* TRAMP
+自定义远程主机 shell, 需要远程主机提供清晰可识别的提示符, 此假设bash的提示符够简单
+#+BEGIN_SRC emacs-lisp
+  (use-package tramp
+    :config
+    (add-to-list 'tramp-connection-properties
+                 (list (regexp-quote "/ssh:.*")
+                       "remote-shell" "/usr/bin/bash"))
+    :commands tramp
+    )
+  ;; 或者也可以在远程zsh配置上加上
+  ;; [[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
+  ;; TERM 值应与 tramp-terminal-type 相同
 #+END_SRC
 
 * UTILS
