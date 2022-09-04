@@ -1,3 +1,3 @@
 #!/bin/sh
-ln -sf .zshrc ~/.zshrc
-ln -sf .vimrc ~/.vimrc
+ln -sf $(pwd)/.zshrc ~/.zshrc
+ln -sf $(pwd)/.vimrc ~/.vimrc
