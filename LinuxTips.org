@@ -52,3 +52,8 @@
 #+begin_src sh
   wget https://raw.githubusercontent.com/archlinuxcn/mirrorlist-repo/master/archlinuxcn-mirrorlist
 #+end_src
+
+** Custom resolution
+复制 linux 上的 */sys/class/drm/*/edid* 文件, 利用 windows [[https://www.monitortests.com/forum/Thread-Custom-Resolution-Utility-CRU][cru]] 软件导入编辑 edid 文件, 然后导出
+放置 linux */usr/lib/firmware* 目录, 内核命令行(*/etc/default/grub* GRUB_CMDLINE_LINUX_DEFAULT="")添加 *drm_kms_helper.edid_firmware=path/your_edid.bin*,
+path 为 */usr/lib/firmware* 相对路径.
