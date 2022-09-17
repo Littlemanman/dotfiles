@@ -328,33 +328,6 @@ function gitunsetproxy() {
   git config --global --unset https.proxy
 }
 
-function vterm_printf(){
-  if [ -n "$TMUX" ] && ([ "${TERM%%-*}" = "tmux" ] || [ "${TERM%%-*}" = "screen" ] ); then
-    # Tell tmux to pass the escape sequences through
-    printf "\ePtmux;\e\e]%s\007\e\\" "$1"
-  elif [ "${TERM%%-*}" = "screen" ]; then
-    # GNU screen (screen, screen-256color, screen-256color-bce)
-    printf "\eP\e]%s\007\e\\" "$1"
-  else
-    printf "\e]%s\e\\" "$1"
-  fi
-}
-function vterm_prompt_end() {
-  vterm_printf "51;A$(whoami)@$(cat /etc/hostname):$(pwd)";
-}
-setopt PROMPT_SUBST
-PROMPT=$PROMPT'%{$(vterm_prompt_end)%}'
-
-function vterm_cmd() {
-  local vterm_elisp
-  vterm_elisp=""
-  while [ $# -gt 0 ]; do
-    vterm_elisp="$vterm_elisp""$(printf '"%s" ' "$(printf "%s" "$1" | sed -e 's|\\|\\\\|g' -e 's|"|\\"|g')")"
-    shift
-  done
-  vterm_printf "51;E$vterm_elisp"
-}
-
 export FZF_DEFAULT_COMMAND='fd --type f'
 
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
@@ -365,6 +338,12 @@ function pai() {
 
 function par() {
   pacman -Qq | fzf -q "$1" -m --preview-window hidden --bind 'alt-.:preview(pacman -Qi {}),alt-n:preview-down,alt-p:preview-up' | xargs -ro sudo pacman -Rscn
+}
+
+function docker-stop-fzf() {
+  local cid
+  cid=$(docker ps -a | sed 1d | fzf -q "$1" | awk '{pring $1}')
+  [ -n "$cid" ] && docker stop "$cid"
 }
 
 bindkey -e
@@ -380,6 +359,44 @@ if [ -e "/mnt/wsl" ];  then
   export BROWSER="/mnt/c/Windows/explorer.exe "
   alias open="/mnt/c/Windows/explorer.exe "
 fi
+
+function check_com () {
+    emulate -L zsh
+    local -i comonly gatoo
+    comonly=0
+    gatoo=0
+
+    if [[ $1 == '-c' ]] ; then
+        comonly=1
+        shift 1
+    elif [[ $1 == '-g' ]] ; then
+        gatoo=1
+        shift 1
+    fi
+
+    if (( ${#argv} != 1 )) ; then
+        printf 'usage: check_com [-c|-g] <command>\n' >&2
+        return 1
+    fi
+
+    if (( comonly > 0 )) ; then
+        (( ${+commands[$1]}  )) && return 0
+        return 1
+    fi
+
+    if     (( ${+commands[$1]}    )) \
+        || (( ${+functions[$1]}   )) \
+        || (( ${+aliases[$1]}     )) \
+        || (( ${+reswords[(r)$1]} )) ; then
+        return 0
+    fi
+
+    if (( gatoo > 0 )) && (( ${+galiases[$1]} )) ; then
+        return 0
+    fi
+
+    return 1
+}
 
 function simple-extract () {
     emulate -L zsh
@@ -737,3 +754,36 @@ typeset -g POWERLEVEL9K_CONFIG_FILE=${${(%):-%x}:a}
 
 (( ${#p10k_config_opts} )) && setopt ${p10k_config_opts[@]}
 'builtin' 'unset' 'p10k_config_opts'
+
+function vterm_printf(){
+  if [ -n "$TMUX" ] && ([ "${TERM%%-*}" = "tmux" ] || [ "${TERM%%-*}" = "screen" ] ); then
+    # Tell tmux to pass the escape sequences through
+    printf "\ePtmux;\e\e]%s\007\e\\" "$1"
+  elif [ "${TERM%%-*}" = "screen" ]; then
+    # GNU screen (screen, screen-256color, screen-256color-bce)
+    printf "\eP\e]%s\007\e\\" "$1"
+  else
+    printf "\e]%s\e\\" "$1"
+  fi
+}
+function vterm_prompt_end() {
+  vterm_printf "51;A$(whoami)@$(cat /etc/hostname):$(pwd)";
+}
+setopt PROMPT_SUBST
+PROMPT=$PROMPT'%{$(vterm_prompt_end)%}'
+
+function vterm_cmd() {
+  local vterm_elisp
+  vterm_elisp=""
+  while [ $# -gt 0 ]; do
+    vterm_elisp="$vterm_elisp""$(printf '"%s" ' "$(printf "%s" "$1" | sed -e 's|\\|\\\\|g' -e 's|"|\\"|g')")"
+    shift
+  done
+  vterm_printf "51;E$vterm_elisp"
+}
+
+function find_file() {
+  vterm_cmd find-file "$(realpath "${@:-.}")"
+}
+
+alias e="find_file"
