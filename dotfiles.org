@@ -6,6 +6,11 @@
 :PROPERTIES:
 :header-args: :tangle ./.zshrc
 :END:
+*** Emacs tramp config
+#+BEGIN_SRC sh
+  [[ $TERM == "EmacsTramp" ]] && unsetopt zle && PS1='$ ' && return
+#+END_SRC
+
 *** Powerlevel10k theme
 #+BEGIN_SRC sh
   # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
