@@ -8,7 +8,7 @@
 :END:
 *** Emacs tramp config
 #+BEGIN_SRC sh
-  [[ $TERM == "EmacsTramp" ]] && unsetopt zle && PS1='$ ' && return
+  [[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
 #+END_SRC
 
 *** Powerlevel10k theme
