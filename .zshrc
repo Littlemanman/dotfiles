@@ -351,6 +351,7 @@ function docker-stop-fzf() {
 bindkey -e
 bindkey -M emacs '^[p' history-substring-search-up
 bindkey -M emacs '^[n' history-substring-search-down
+bindkey "^[[3~" delete-char
 
 alias em="emacsclient -c "
 alias emr="emacsclient -r "
