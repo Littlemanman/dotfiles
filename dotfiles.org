@@ -859,8 +859,8 @@
 
 *** Environment
 #+BEGIN_SRC sh
-  if [ -f "~/.environment" ]; then
-    source "~/.environment"
+  if [ -f ~/.environment ]; then
+    source ~/.environment
   fi
 #+END_SRC
 
