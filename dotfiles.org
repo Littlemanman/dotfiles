@@ -857,6 +857,13 @@
   fi
 #+END_SRC
 
+*** Environment
+#+BEGIN_SRC sh
+  if [ -f "~/.environment" ]; then
+    source "~/.environment"
+  fi
+#+END_SRC
+
 ** Tools
 - [[https://github.com/ajeetdsouza/zoxide][zoxide]]
   cd替代工具，智能跳转目录

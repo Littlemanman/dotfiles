@@ -793,3 +793,7 @@ if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
 
   alias e="find_file"
 fi
+
+if [ -f "~/.environment" ]; then
+  source "~/.environment"
+fi
