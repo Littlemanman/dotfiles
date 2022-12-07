@@ -874,6 +874,9 @@
   社区维护的命令例子集合, python 编写, 可 pip install, 网页版 -> https://tldr.ostera.io
 - [[https://github.com/nvbn/thefuck][thefuck]]
   命令纠正工具, python编写, 可 pip install
+- [[https://github.com/zellij-org/zellij][zellij]]
+  Zellij 是一个针对开发者、面向操作人员和任何热爱终端的人的工作空间。
+  在它的核心，它是一个终端多路复用器（类似于tmux和screen），但这仅仅是它的基础设施层。
 
 * Editor
 ** [[file:.emacs.d/EmacsConfig.org][Emacs]]
