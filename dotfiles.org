@@ -864,6 +864,11 @@
   fi
 #+END_SRC
 
+*** Word Match
+#+BEGIN_SRC sh
+  export WORDCHARS=''
+#+END_SRC
+
 ** Tools
 - [[https://github.com/ajeetdsouza/zoxide][zoxide]]
   cd替代工具，智能跳转目录

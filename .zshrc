@@ -797,3 +797,5 @@ fi
 if [ -f ~/.environment ]; then
   source ~/.environment
 fi
+
+export WORDCHARS=''
