@@ -308,28 +308,6 @@ ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS=(
   vi-find-next-char-skip
 )
 
-export PROXY_ADDRESS="http://localhost:40003"
-
-function setproxy() {
-  export http_proxy=$PROXY_ADDRESS
-  export https_proxy=$PROXY_ADDRESS
-}
-
-function unsetproxy() {
-  unset http_proxy
-  unset https_proxy
-}
-
-function gitsetproxy() {
-  git config --global http.proxy $PROXY_ADDRESS
-  git config --global https.proxy $PROXY_ADDRESS
-}
-
-function gitunsetproxy() {
-  git config --global --unset http.proxy
-  git config --global --unset https.proxy
-}
-
 export FZF_DEFAULT_COMMAND='fd --type f'
 
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
@@ -794,8 +772,32 @@ if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
   alias e="find_file"
 fi
 
+export WORDCHARS=''
+
 if [ -f ~/.environment ]; then
   source ~/.environment
 fi
 
-export WORDCHARS=''
+if [ -z $PROXY_ADDRESS ]; then
+  export PROXY_ADDRESS="http://localhost:40003"
+fi
+
+function setproxy() {
+  export http_proxy=$PROXY_ADDRESS
+  export https_proxy=$PROXY_ADDRESS
+}
+
+function unsetproxy() {
+  unset http_proxy
+  unset https_proxy
+}
+
+function gitsetproxy() {
+  git config --global http.proxy $PROXY_ADDRESS
+  git config --global https.proxy $PROXY_ADDRESS
+}
+
+function gitunsetproxy() {
+  git config --global --unset http.proxy
+  git config --global --unset https.proxy
+}

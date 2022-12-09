@@ -346,32 +346,6 @@
   )
 #+END_SRC
 
-*** Proxy config
-#+BEGIN_SRC sh
-  export PROXY_ADDRESS="http://localhost:40003"
-
-  function setproxy() {
-    export http_proxy=$PROXY_ADDRESS
-    export https_proxy=$PROXY_ADDRESS
-  }
-
-  function unsetproxy() {
-    unset http_proxy
-    unset https_proxy
-  }
-
-  function gitsetproxy() {
-    git config --global http.proxy $PROXY_ADDRESS
-    git config --global https.proxy $PROXY_ADDRESS
-  }
-
-  function gitunsetproxy() {
-    git config --global --unset http.proxy
-    git config --global --unset https.proxy
-  }
-
-#+END_SRC
-
 *** Fzf config
 #+BEGIN_SRC sh
   export FZF_DEFAULT_COMMAND='fd --type f'
@@ -857,6 +831,11 @@
   fi
 #+END_SRC
 
+*** Word Match
+#+BEGIN_SRC sh
+  export WORDCHARS=''
+#+END_SRC
+
 *** Environment
 #+BEGIN_SRC sh
   if [ -f ~/.environment ]; then
@@ -864,9 +843,32 @@
   fi
 #+END_SRC
 
-*** Word Match
+*** Proxy config
 #+BEGIN_SRC sh
-  export WORDCHARS=''
+  if [ -z $PROXY_ADDRESS ]; then
+    export PROXY_ADDRESS="http://localhost:40003"
+  fi
+
+  function setproxy() {
+    export http_proxy=$PROXY_ADDRESS
+    export https_proxy=$PROXY_ADDRESS
+  }
+
+  function unsetproxy() {
+    unset http_proxy
+    unset https_proxy
+  }
+
+  function gitsetproxy() {
+    git config --global http.proxy $PROXY_ADDRESS
+    git config --global https.proxy $PROXY_ADDRESS
+  }
+
+  function gitunsetproxy() {
+    git config --global --unset http.proxy
+    git config --global --unset https.proxy
+  }
+
 #+END_SRC
 
 ** Tools
