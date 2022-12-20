@@ -871,6 +871,143 @@
 
 #+END_SRC
 
+** Zellij
+:PROPERTIES:
+:header-args: :tangle ./.config/zellij/config.kdl :mkdirp yes
+:END:
+
+#+BEGIN_SRC conf
+  on_force_close "quit"
+  simplified_ui true
+  themes {
+     dracula {
+          fg 248 248 242
+          bg 40 42 54
+          black 0 0 0
+          red 255 85 85
+          green 80 250 123
+          yellow 241 250 140
+          blue 98 114 164
+          magenta 255 121 198
+          cyan 139 233 253
+          white 255 255 255
+          orange 255 184 108
+      }
+  }
+  theme "dracula"
+  // default_layout "compact"
+  default_mode "locked"
+  mouse_mode false
+  pane_frames false
+  keybinds {
+      normal clear-defaults=true {
+          unbind "Ctrl g"
+
+          bind "," { SwitchToMode "pane"; }
+          bind "Alt h" { MoveFocus "Left"; }
+          bind "Alt l" { MoveFocus "Right"; }
+          bind "Alt j" { MoveFocus "Down"; }
+          bind "Alt k" { MoveFocus "Up"; }
+          bind "Alt H" { MovePane "Left"; }
+          bind "Alt L" { MovePane "Right"; }
+          bind "Alt J" { MovePane "Down"; }
+          bind "Alt K" { MovePane "Up"; }
+          bind "o" { FocusNextPane; }
+          bind "O" { FocusPreviousPane; }
+          bind "w" { ToggleFloatingPanes; }
+          bind "W" { ToggleFloatingPanes; }
+          bind "F" { ToggleFocusFullscreen; }
+
+          bind "Ctrl Q" { Detach; }
+          bind "Ctrl S" { DumpScreen "~/zellij-dump.txt"; }
+          bind "Ctrl E" { EditScrollback; }
+
+          bind "j" { ScrollDown; }
+          bind "k" { ScrollUp; }
+          bind "G" { ScrollToBottom; }
+          bind "d" { HalfPageScrollDown; }
+          bind "u" { HalfPageScrollUp; }
+          bind "Ctrl d" { HalfPageScrollDown; }
+          bind "Ctrl u" { HalfPageScrollUp; }
+          bind "f" { PageScrollDown; }
+          bind "b" { PageScrollUp; }
+          bind "Ctrl f" { PageScrollDown; }
+          bind "Ctrl b" { PageScrollUp; }
+          bind "n" { Search "down"; }
+          bind "N" { Search "up";}
+
+          bind "i" { SwitchToMode "locked"; }
+          bind "a" { SwitchToMode "locked"; }
+
+          bind "Tab" { SwitchToMode "tab"; }
+          bind "t" { SwitchToMode "tab"; }
+
+          bind "Ctrl m" { ToggleMouseMode; }
+      }
+
+      pane clear-default=true {
+          bind "v" { NewPane "Right"; SwitchToMode "normal"; }
+          bind "s" { NewPane "Down"; SwitchToMode "normal"; }
+          bind "d" { CloseFocus; SwitchToMode "normal"; }
+          bind "h" { MoveFocus "Left"; }
+          bind "l" { MoveFocus "Right"; }
+          bind "j" { MoveFocus "Down"; }
+          bind "k" { MoveFocus "Up"; }
+          bind "H" { MovePane "Left"; }
+          bind "L" { MovePane "Right"; }
+          bind "J" { MovePane "Down"; }
+          bind "K" { MovePane "Up"; }
+          bind "Alt h" { Resize "Left"; }
+          bind "Alt l" { Resize "Right"; }
+          bind "Alt j" { Resize "Down"; }
+          bind "Alt k" { Resize "Up"; }
+          bind "Ctrl =" { Resize "Increase"; }
+          bind "Ctrl -" { Resize "Decrease"; }
+          bind "w" { ToggleFloatingPanes; SwitchToMode "normal"; }
+          bind "f" { ToggleFocusFullscreen; SwitchToMode "normal"; }
+          bind "F" { TogglePaneFrames; }
+          bind "r" { SwitchToMode "renamepane"; }
+      }
+
+      renamepane {
+          bind "Ctrl g" { UndoRenamePane; SwitchToMode "pane"; }
+      }
+
+      tab clear-default=true {
+          bind "d" { CloseTab; SwitchToMode "normal"; }
+          bind "Tab" { GoToNextTab; }
+          bind "n" { GoToNextTab; SwitchToMode "normal"; }
+          bind "p" { GoToPreviousTab; SwitchToMode "normal"; }
+          bind "c" { NewTab; }
+          bind "r" { SwitchToMode "renametab";}
+          bind "1" { GoToTab 1; SwitchToMode "normal"; }
+          bind "2" { GoToTab 2; SwitchToMode "normal"; }
+          bind "3" { GoToTab 3; SwitchToMode "normal"; }
+          bind "4" { GoToTab 4; SwitchToMode "normal"; }
+          bind "5" { GoToTab 5; SwitchToMode "normal"; }
+          bind "6" { GoToTab 6; SwitchToMode "normal"; }
+          bind "7" { GoToTab 7; SwitchToMode "normal"; }
+          bind "8" { GoToTab 8; SwitchToMode "normal"; }
+          bind "9" { GoToTab 9; SwitchToMode "normal"; }
+      }
+
+      renametab {
+          bind "Ctrl g" { UndoRenameTab; SwitchToMode "tab"; }
+      }
+
+      locked clear-defaults=true {
+          bind "Alt g" { SwitchToMode "normal"; }
+      }
+
+
+      shared_except "locked" {
+          bind "i" { SwitchToMode "locked"; }
+          bind "a" { SwitchToMode "locked"; }
+          bind "Ctrl g" { SwitchToMode "normal"; }
+      }
+  }
+#+END_SRC
+
 ** Tools
 - [[https://github.com/ajeetdsouza/zoxide][zoxide]]
   cd替代工具，智能跳转目录
@@ -898,6 +1035,7 @@
 :PROPERTIES:
 :header-args: :tangle ./.vimrc
 :END:
+
 没用任何插件，只是一些基本的配置
 *** 核心配置
 #+BEGIN_SRC conf
@@ -1104,9 +1242,25 @@
 #+end_src
 
 * Dotfile Install
+:PROPERTIES:
+:header-args: :tangle ./install.sh :shebang #!/bin/sh
+:END:
+
 所有配置文件采用软链接形式安装
-#+BEGIN_SRC sh :tangle ./install.sh
-  #!/bin/sh
+** zsh
+#+BEGIN_SRC sh
   ln -sf $(pwd)/.zshrc ~/.zshrc
+#+END_SRC
+
+** vim
+#+BEGIN_SRC sh
   ln -sf $(pwd)/.vimrc ~/.vimrc
+#+END_SRC
+
+** zellij
+#+BEGIN_SRC sh
+  if [ ! -d ~/.config/zellij ]; then
+    mkdir -p ~/.config/zellij
+  fi
+  ln -sf $(pwd)/.config/zellij/config.kdl ~/.config/zellij/config.kdl
 #+END_SRC
