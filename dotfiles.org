@@ -895,7 +895,7 @@
       }
   }
   theme "dracula"
-  // default_layout "compact"
+  default_layout "compact"
   default_mode "locked"
   mouse_mode false
   pane_frames false
