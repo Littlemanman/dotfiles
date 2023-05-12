@@ -121,7 +121,7 @@ keybinds {
     }
 
 
-    shared_except "locked" {
+    shared_except "locked" "renametab" "renamepane" {
         bind "i" { SwitchToMode "locked"; }
         bind "a" { SwitchToMode "locked"; }
         bind "Ctrl g" { SwitchToMode "normal"; }
