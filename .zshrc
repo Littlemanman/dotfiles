@@ -332,6 +332,7 @@ bindkey -M emacs '^[n' history-substring-search-down
 bindkey "^[[3~" delete-char
 
 alias em="emacsclient -c "
+alias e="emacsclient -nw -c "
 alias emr="emacsclient -r "
 alias suem="SUDO_EDITOR='emacsclient -c ' sudo -e"
 
