@@ -378,6 +378,7 @@
 *** All alias
 #+BEGIN_SRC sh
   alias em="emacsclient -c "
+  alias e="emacsclient -nw -c "
   alias emr="emacsclient -r "
   alias suem="SUDO_EDITOR='emacsclient -c ' sudo -e"
 #+END_SRC
