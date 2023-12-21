@@ -61,10 +61,6 @@ function d () {
   fi
 }
 
-if [[ -x "$(command -v zoxide)" ]]; then
-   eval "$(zoxide init zsh --cmd j)"
-fi
-
 unsetopt MENU_COMPLETE   # 禁止自动选择第一个
 unsetopt FLOW_CONTROL
 setopt AUTO_MENU         # TAB按键自动选择下一个
@@ -325,6 +321,10 @@ function docker-stop-fzf() {
   cid=$(docker ps -a | sed 1d | fzf -q "$1" | awk '{pring $1}')
   [ -n "$cid" ] && docker stop "$cid"
 }
+
+if [[ -x "$(command -v zoxide)" ]]; then
+   eval "$(zoxide init zsh --cmd j)"
+fi
 
 bindkey -e
 bindkey -M emacs '^[p' history-substring-search-up

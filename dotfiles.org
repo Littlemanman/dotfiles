@@ -79,10 +79,6 @@
       dirs -v | head -n 10
     fi
   }
-
-  if [[ -x "$(command -v zoxide)" ]]; then
-     eval "$(zoxide init zsh --cmd j)"
-  fi
 #+END_SRC
 
 *** Complete
@@ -346,7 +342,8 @@
   )
 #+END_SRC
 
-*** Fzf config
+*** Tools config
+**** fzf
 #+BEGIN_SRC sh
   export FZF_DEFAULT_COMMAND='fd --type f'
 
@@ -365,6 +362,12 @@
     cid=$(docker ps -a | sed 1d | fzf -q "$1" | awk '{pring $1}')
     [ -n "$cid" ] && docker stop "$cid"
   }
+#+END_SRC
+**** zoxide
+#+BEGIN_SRC conf
+  if [[ -x "$(command -v zoxide)" ]]; then
+     eval "$(zoxide init zsh --cmd j)"
+  fi
 #+END_SRC
 
 *** Keybind
