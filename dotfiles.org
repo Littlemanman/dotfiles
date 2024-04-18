@@ -343,6 +343,9 @@
 #+END_SRC
 
 *** Tools config
+#+BEGIN_SRC sh
+  export ZSH_REQUIRE_COMMAND_TOOLS="fzf zoxide"
+#+END_SRC
 **** fzf
 #+BEGIN_SRC sh
   export FZF_DEFAULT_COMMAND='fd --type f'
@@ -849,10 +852,6 @@
 
 *** Proxy config
 #+BEGIN_SRC sh
-  if [ -z $PROXY_ADDRESS ]; then
-    export PROXY_ADDRESS="http://localhost:40003"
-  fi
-
   function setproxy() {
     export http_proxy=$PROXY_ADDRESS
     export https_proxy=$PROXY_ADDRESS
