@@ -1250,14 +1250,19 @@
 :END:
 
 所有配置文件采用软链接形式安装
+** init
+#+BEGIN_SRC sh
+  DOTFILES_DIR=$(dirname $0)
+#+END_SRC
+
 ** zsh
 #+BEGIN_SRC sh
-  ln -sf $(pwd)/.zshrc ~/.zshrc
+  ln -sf $DOTFILES_DIR/.zshrc ~/.zshrc
 #+END_SRC
 
 ** vim
 #+BEGIN_SRC sh
-  ln -sf $(pwd)/.vimrc ~/.vimrc
+  ln -sf $DOTFILES_DIR/.vimrc ~/.vimrc
 #+END_SRC
 
 ** zellij
@@ -1265,5 +1270,5 @@
   if [ ! -d ~/.config/zellij ]; then
     mkdir -p ~/.config/zellij
   fi
-  ln -sf $(pwd)/.config/zellij/config.kdl ~/.config/zellij/config.kdl
+  ln -sf $DOTFILES_DIR/.config/zellij/config.kdl ~/.config/zellij/config.kdl
 #+END_SRC
