@@ -304,6 +304,8 @@ ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS=(
   vi-find-next-char-skip
 )
 
+export ZSH_REQUIRE_COMMAND_TOOLS="fzf zoxide"
+
 export FZF_DEFAULT_COMMAND='fd --type f'
 
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
@@ -777,10 +779,6 @@ export WORDCHARS=''
 
 if [ -f ~/.environment ]; then
   source ~/.environment
-fi
-
-if [ -z $PROXY_ADDRESS ]; then
-  export PROXY_ADDRESS="http://localhost:40003"
 fi
 
 function setproxy() {
