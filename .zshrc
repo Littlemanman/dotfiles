@@ -333,10 +333,7 @@ bindkey -M emacs '^[p' history-substring-search-up
 bindkey -M emacs '^[n' history-substring-search-down
 bindkey "^[[3~" delete-char
 
-alias em="emacsclient -c "
-alias e="emacsclient -nw -c "
-alias emr="emacsclient -r "
-alias suem="SUDO_EDITOR='emacsclient -c ' sudo -e"
+
 
 if [ -e "/mnt/wsl" ];  then
   export PROXY_ADDRESS="http://$(ip route | awk '{print $3;exit}'):40003"
@@ -774,6 +771,20 @@ if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
 
   alias e="find_file"
 fi
+
+function emacs_sudo_open() {
+  if [ -z "$1" ]; then
+    filename="."
+  else
+    filename="$1"
+  fi
+
+  emacsclient -t -e "(find-file \"/sudo:root@localhost:$filename\")"
+}
+alias em="emacsclient -c "
+alias e="emacsclient -nw -c "
+alias emr="emacsclient -r "
+alias sudoe=emacs_sudo_open
 
 export WORDCHARS=''
 

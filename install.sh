@@ -1,9 +1,11 @@
 #!/bin/sh
-ln -sf $(pwd)/.zshrc ~/.zshrc
+DOTFILES_DIR=$(dirname $0)
 
-ln -sf $(pwd)/.vimrc ~/.vimrc
+ln -sf $DOTFILES_DIR/.zshrc ~/.zshrc
+
+ln -sf $DOTFILES_DIR/.vimrc ~/.vimrc
 
 if [ ! -d ~/.config/zellij ]; then
   mkdir -p ~/.config/zellij
 fi
-ln -sf $(pwd)/.config/zellij/config.kdl ~/.config/zellij/config.kdl
+ln -sf $DOTFILES_DIR/.config/zellij/config.kdl ~/.config/zellij/config.kdl
