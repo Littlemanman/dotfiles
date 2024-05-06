@@ -383,10 +383,6 @@
 
 *** All alias
 #+BEGIN_SRC sh
-  alias em="emacsclient -c "
-  alias e="emacsclient -nw -c "
-  alias emr="emacsclient -r "
-  alias suem="SUDO_EDITOR='emacsclient -c ' sudo -e"
 #+END_SRC
 
 *** Wsl config
@@ -836,6 +832,23 @@
 
     alias e="find_file"
   fi
+#+END_SRC
+
+*** Emacs Alias
+#+BEGIN_SRC sh
+  function emacs_sudo_open() {
+    if [ -z "$1" ]; then
+      filename="."
+    else
+      filename="$1"
+    fi
+
+    emacsclient -t -e "(find-file \"/sudo:root@localhost:$filename\")"
+  }
+  alias em="emacsclient -c "
+  alias e="emacsclient -nw -c "
+  alias emr="emacsclient -r "
+  alias sudoe=emacs_sudo_open
 #+END_SRC
 
 *** Word Match
