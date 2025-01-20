@@ -1,4 +1,4 @@
-[[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
+[[ "$INSIDE_EMACS" == *tramp* ]] && unsetopt zle && PS1='$ ' && return
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -306,23 +306,29 @@ ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS=(
 
 export ZSH_REQUIRE_COMMAND_TOOLS="fzf zoxide"
 
-export FZF_DEFAULT_COMMAND='fd --type f'
+if [[ -x "$(command -v fzf)" ]]; then
+  export FZF_DEFAULT_COMMAND='fd --type f'
 
-export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+  export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 
-function pai() {
-  pacman -Slq | fzf -q "$1" -m --preview-window hidden --bind 'alt-.:preview(pacman -Si {}),alt-n:preview-down,alt-p:preview-up' | xargs -ro sudo pacman -S
-}
+  function pai() {
+    pacman -Slq | fzf -q "$1" -m --preview-window hidden --bind 'alt-.:preview(pacman -Si {}),alt-n:preview-down,alt-p:preview-up' | xargs -ro sudo pacman -S
+  }
 
-function par() {
-  pacman -Qq | fzf -q "$1" -m --preview-window hidden --bind 'alt-.:preview(pacman -Qi {}),alt-n:preview-down,alt-p:preview-up' | xargs -ro sudo pacman -Rscn
-}
+  function par() {
+    pacman -Qq | fzf -q "$1" -m --preview-window hidden --bind 'alt-.:preview(pacman -Qi {}),alt-n:preview-down,alt-p:preview-up' | xargs -ro sudo pacman -Rscn
+  }
 
-function docker-stop-fzf() {
-  local cid
-  cid=$(docker ps -a | sed 1d | fzf -q "$1" | awk '{pring $1}')
-  [ -n "$cid" ] && docker stop "$cid"
-}
+  function docker-stop-fzf() {
+    local cid
+    cid=$(docker ps -a | sed 1d | fzf -q "$1" | awk '{pring $1}')
+    [ -n "$cid" ] && docker stop "$cid"
+  }
+
+  FZF_CTRL_T_COMMAND=""
+  FZF_ALT_C_COMMAND=""
+  eval "$(fzf --zsh)"
+fi
 
 if [[ -x "$(command -v zoxide)" ]]; then
    eval "$(zoxide init zsh --cmd j)"
